@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<web-app>
+<servlet>
+	<servlet-name>register</servlet-name>
+	<servlet-class>myservlet.control.HandleRegister</servlet-class>
+</servlet>
+<servlet-mapping>
+	<servlet-name>register</servlet-name>
+	<url-pattern>/helpRegister</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>upFile</servlet-name>
+    <servlet-class>myservlet.control.Example8_6_Servlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>upFile</servlet-name>
+    <url-pattern>/upFile</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>ActLogin</servlet-name>
+    <servlet-class>myservlet.control.ActLogin</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ActLogin</servlet-name>
+    <url-pattern>/Login</url-pattern>
+</servlet-mapping>
+</web-app>

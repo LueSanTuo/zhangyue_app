@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="10dp"
+    android:layout_gravity="center_vertical"
+    android:id="@+id/whole">
+
+    <TextView
+        android:id="@+id/pageFirstLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="当前页的第一句"
+        android:maxLength="12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
+        <TextView
+            android:id="@+id/chapterProcess"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="59.6%"/>
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="2018/11/13 10:14:50"/>
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#AAAAAA"/>
+</LinearLayout>

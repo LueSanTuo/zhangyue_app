@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:gravity="center">
+    <LinearLayout
+        android:id="@+id/whole"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center"
+        android:background="@drawable/myrect">
+        <ImageView
+            android:padding="6dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/bookmall_red"/>
+        <TextView
+            android:id="@+id/bookName"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="书名"
+            android:textSize="19dp"/>
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="作者名"/>
+    </LinearLayout>
+</LinearLayout>

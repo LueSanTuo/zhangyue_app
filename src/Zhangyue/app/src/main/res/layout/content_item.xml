@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:layout_gravity="center_vertical"
+    android:id="@+id/whole">
+
+    
+    <TextView
+        android:id="@+id/chapterName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="章节名称"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#AAAAAA"/>
+</LinearLayout>

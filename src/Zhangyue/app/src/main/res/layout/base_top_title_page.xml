@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--包含标题栏:图标+文字-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#FFFFFF"
+        android:layout_height="50dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/bookmall_select"
+                />
+        </RelativeLayout>
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:id="@+id/iv_logo_page"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_title_page"
+            android:visibility="gone"
+            android:text="我是标题"
+            android:textSize="20sp"
+            android:textColor="#888888"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_paypal_page"
+            android:text="分类"
+            android:textSize="20sp"
+            android:textColor="#888888"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fl_title_content_page"
+        android:background="#AEAEAE"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <!--此入放置一个布局的原因:首页(Textview),赛程(内容),推荐... 使用方法addView(contentView)-->
+    </FrameLayout>
+</LinearLayout>

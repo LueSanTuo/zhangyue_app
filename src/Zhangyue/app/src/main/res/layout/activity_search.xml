@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EEEEEE"
+    tools:context="com.example.asus.zhangyue.SearchActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FFFFFF">
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:src="@drawable/icon_9"/>
+        <EditText
+            android:id="@+id/editSearch"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="搜索内容"
+            android:maxLines="1"
+            android:background="@drawable/search_edit_on"/>
+        <TextView
+            android:id="@+id/btnSearch"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textColor="#414141"
+            android:gravity="center"
+            android:text="搜索"/>
+    </LinearLayout>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/searchRes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#FFFFFF">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

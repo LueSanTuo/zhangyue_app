@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
+    tools:context="com.example.asus.zhangyue.BookCityActivity">
+    <FrameLayout
+        android:id="@+id/fl_fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#EEEEEE"
+        android:layout_weight="1">
+        <!-- 存放四个Fragment-->
+    </FrameLayout>
+
+    <!-- 底部的四个选项菜单-->
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <!--四个部分都一样：ImageView + TextView-->
+        <RelativeLayout
+            android:id="@+id/rl_first_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_first_home"
+                android:src="@drawable/icon_bookshelf_selector"
+                android:layout_width="24dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="24dp" />
+            <TextView
+                android:id="@+id/tv_first_home"
+                android:textColor="@drawable/text_selector_color"
+                android:text="书架"
+                android:layout_below="@+id/iv_first_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_second_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_second_match"
+                android:src="@drawable/icon_bookmall_selector"
+                android:layout_centerHorizontal="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+            <TextView
+                android:id="@+id/tv_second_match"
+                android:textColor="@drawable/text_selector_color"
+                android:text="书城"
+                android:layout_below="@+id/iv_second_match"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_third_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_third_recommend"
+                android:src="@drawable/icon_bookfound_selector"
+                android:layout_centerHorizontal="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+            <TextView
+                android:id="@+id/tv_third_recommend"
+                android:textColor="@drawable/text_selector_color"
+                android:text="发现"
+                android:layout_below="@+id/iv_third_recommend"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_four_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_four_mine"
+                android:src="@drawable/icon_minepage_selector"
+                android:layout_centerHorizontal="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+            <TextView
+                android:id="@+id/tv_four_mine"
+                android:textColor="@drawable/text_selector_color"
+                android:text="我的"
+                android:layout_below="@+id/iv_four_mine"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
