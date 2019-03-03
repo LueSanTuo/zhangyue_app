@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -65,6 +67,12 @@ public class User {
     private String password;
     /** 经验 */
     private int userExp;
+    /** 今日阅读时间 已s为单位 */
+    private long userReadingTime;
+    /** 阅读开始时间 */
+    private Calendar readingStartTime;
+    /** 阅读今天的年月份 作key */
+    private String readingDateKey;
 
     /** 上一次阅读某本书的位置 */
     private List<BookMark> historyList = new ArrayList<>();
@@ -89,6 +97,73 @@ public class User {
     public void Login (String content) {
         parseJSONWithJSONObject(content);
         isLoaded = true;
+    }
+
+    /** 获得当前阅读时间 单位为分 */
+    public long getUserReadingTime () {
+        // 如果没有登录的话 获得本地数据
+        // 否者获取数据库数据
+        getReadingTime ();
+        return pref.getLong(readingDateKey, 0) / 60;
+    }
+
+    /** 初始化阅读时间 获得今天的日期 */
+    public void getReadingTime () {
+        Calendar c = Calendar.getInstance();
+        readingDateKey = c.get(Calendar.YEAR) + "_"
+                + c.get(Calendar.MONTH) + "_"
+                + c.get(Calendar.DAY_OF_MONTH);
+    }
+
+    /** 在打开或者激活阅读活动时记录此时的时间 */
+    public void recordStartReadingTime () {
+        readingStartTime = Calendar.getInstance();
+    }
+
+    /** 在关闭或者暂停阅读活动时计算当前阅读的时间 存入 */
+    public void settleEndReadingTime () {
+        Calendar curTime = Calendar.getInstance();
+        Date startDate = readingStartTime.getTime();
+        Date curDate = curTime.getTime();
+        // 获得时间差
+        long dTime = curDate.getTime() - startDate.getTime();
+        if (dTime < 0) {
+            readingStartTime = curTime;
+            return;
+        }
+        long second = dTime / 1000;
+        // 加上结算后的时间
+        userReadingTime += second;
+        readingStartTime = curTime;
+    }
+
+    /** 保存阅读时间到本地 */
+    public void saveReadingTimeLocal () {
+        if (isLoaded)
+            return;
+        if (editor == null) {
+            System.out.println("User:saveReadingTimeLocal editor == null");
+            return;
+        }
+        // 获得当前时间
+        getReadingTime ();
+        if (readingDateKey == null || readingDateKey.equals(""))
+            return;
+        // 取出原来的时间
+        long oldTime = pref.getLong(readingDateKey, 0);
+        oldTime += userReadingTime;
+        editor.putLong(readingDateKey, oldTime);
+        editor.apply();
+        // 清空时间
+        userReadingTime = 0;
+        System.out.println("User:saveReadingTimeLocal " + oldTime);
+    }
+
+    /** 保存阅读时间 */
+    public void saveReadingTime () {
+        if (!isLoaded)
+            return;
+
     }
 
     /** 解析json */
@@ -140,6 +215,17 @@ public class User {
     /** 获得用户书签 */
     public List<BookMark> getBookMarkList() {
         return bookMarkList;
+    }
+
+    /** 根据书籍id 获得该书的书签 */
+    public List<BookMark> getBookMarkList(String bookId) {
+        List<BookMark> list = new ArrayList<>();
+        for (BookMark bm : bookMarkList) {
+            if (bm.bookId.equals(bookId)) {
+                list.add(bm);
+            }
+        }
+        return list;
     }
 
     /** 获取某本书的阅读历史 如果没有读过则返回null */
@@ -215,6 +301,19 @@ public class User {
             List<BookMark> bookList = gson.fromJson(jsonData, new TypeToken<List<BookMark>>(){}.getType());
             return  bookList;
         }
+
+        @Override
+        public String toString() {
+            return "BookMark{" +
+                    "account='" + account + '\'' +
+                    ", bookId='" + bookId + '\'' +
+                    ", chapterId=" + chapterId +
+                    ", firstLine='" + firstLine + '\'' +
+                    ", process=" + process +
+                    ", date='" + date + '\'' +
+                    '}';
+        }
+
         // region Get Set
         public String getAccount() {
             return account;
@@ -335,9 +434,9 @@ public class User {
         // 保存夜间模式
         editor.putBoolean("NightMode", PageRender.IS_NIGHT_MODE);
         // 保存字体大小
-        editor.putInt("FontSize", PageRender.FONT_SIZE);
+        editor.putInt("FontSizeNew", PageRender.FONT_SIZE);
         // 保存字体颜色
-        editor.putInt("FontSize", PageRender.FONT_COLOR);
+        editor.putInt("FontColor", PageRender.FONT_COLOR);
         // 保存背景id
         editor.putInt("Background", PageRender.BACKGROUND_ID);
         editor.apply();
@@ -347,8 +446,8 @@ public class User {
     public void loadSetLocal () {
         if (pref == null)
             return;
-        PageRender.FONT_SIZE = pref.getInt("FontSize", 20);
-        PageRender.FONT_COLOR = pref.getInt("FontSize", Color.BLACK);
+        PageRender.FONT_SIZE = pref.getInt("FontSizeNew", 20);
+        PageRender.FONT_COLOR = pref.getInt("FontColor", Color.BLACK);
         PageRender.BACKGROUND_ID = pref.getInt("Background", 1);
         PageRender.IS_NIGHT_MODE = pref.getBoolean("NightMode", false);
     }
@@ -372,23 +471,29 @@ public class User {
 
     /** 保存用户阅读情况的数据 */
     public void saveUserData (Context context) {
-        System.out.println("saveUserData");
+        System.out.println("User:saveUserData");
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = pref.edit();
         // 如果是登录状态 则保存到数据库
         // 否则只保存到本地
         if (isLoaded) {
             saveBookMark();
             saveReadHistory();
+            saveReadingTime();
         }
         saveBookMarkLocal();
         saveReadHistoryLocal();
         saveSetLocal ();
+        saveReadingTimeLocal ();
     }
 
 
     /** 保存用户书签到本地 */
     public void saveBookMarkLocal () {
-        if (editor == null)
+        if (editor == null) {
+            System.out.println("User:saveBookMarkLocal editor == null");
             return;
+        }
         int size = bookMarkList.size();
         editor.putInt("userBookMarkSize", size);
         for (int i = 0; i < size; i++) {
@@ -400,6 +505,7 @@ public class User {
             editor.putString("date_" + i, bm.date);
         }
         editor.apply();
+        System.out.println("User:saveBookMarkLocal");
     }
 
     /** 保存用户书签到数据库 */
@@ -531,6 +637,7 @@ public class User {
                     pref.getString("date_" + i, "")
             );
             historyList.add(bm);
+            System.out.println("User: " + i + bm.toString());
         }
     }
 

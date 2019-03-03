@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.asus.zhangyue.Data.User;
 import com.example.asus.zhangyue.R;
@@ -26,6 +27,7 @@ public class BookShelfFragment extends Fragment {
     public BookShelfRecyclerView mRecyclerView;
 
     private List<BookShelfRecyclerView.Item> dataList;
+    private TextView readingTimeText;
 
     @Nullable
     @Override
@@ -35,7 +37,23 @@ public class BookShelfFragment extends Fragment {
         mRecyclerView = new BookShelfRecyclerView(rview, getContext(), this);
         initReadRecord();
         mRecyclerView.setAdapter(dataList);
+        readingTimeText = (TextView)view.findViewById(R.id.readingTime);
+        readingTimeText.setText("" + User.get().getUserReadingTime ());
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        readingTimeText.setText("" + User.get().getUserReadingTime ());
+        System.out.println("BookShelfFragment:onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        readingTimeText.setText("" + User.get().getUserReadingTime ());
+        System.out.println("BookShelfFragment:onResume");
     }
 
     /** 初始化阅读记录 */
@@ -51,6 +69,7 @@ public class BookShelfFragment extends Fragment {
             String bookAuthor = user.getBookAuthor(bm.bookId);
             dataList.add(mRecyclerView.new Item(bookName, bookAuthor, bm));
         }
+
     }
 
     /** 跳转到阅读 */

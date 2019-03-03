@@ -9,12 +9,27 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:background="#FFFFFF">
-    <TextView
-        android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="阅读记录"
-        android:textSize="20dp"/>
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日已读"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/readingTime"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="29dp"/>
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分钟"
+            android:textSize="20dp"/>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bookShelfRecycler"

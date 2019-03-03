@@ -2,6 +2,7 @@ package com.example.asus.zhangyue;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -90,4 +91,22 @@ public class SearchActivity extends Activity {
         startActivity(intent);
     }
 
+    /** 用于网络收集书籍 */
+    class SearchAsyncTask extends AsyncTask<String, Void, List<SearhRecyclerView.Item>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(List<SearhRecyclerView.Item> items) {
+            super.onPostExecute(items);
+        }
+
+        @Override
+        protected List<SearhRecyclerView.Item> doInBackground(String... strings) {
+
+            return null;
+        }
+    }
 }

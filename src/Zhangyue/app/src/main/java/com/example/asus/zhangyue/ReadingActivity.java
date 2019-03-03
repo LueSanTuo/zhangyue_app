@@ -2,6 +2,7 @@ package com.example.asus.zhangyue;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 
 import android.support.v4.view.PagerAdapter;
@@ -145,8 +146,21 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
         //activityPopup = findViewById(R.id.activity_reading);
         initPopupWindow();
         //initTittle();
-        if (chapterReadProcess != 0f)
-            gotoPageByProcess (curChapterId, chapterReadProcess);
+        if (chapterReadProcess != 0f) {
+            gotoPageByProcess(curChapterId, chapterReadProcess);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        User.get().recordStartReadingTime();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        User.get().settleEndReadingTime();
     }
 
     @Override
@@ -166,7 +180,7 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
     @Override
     protected void onDestroy() {
         addReadRecord();
-        System.out.println("onDestroy");
+        System.out.println("ReadingActivity:onDestroy");
         User.get().saveUserData(this);
         super.onDestroy();
     }
@@ -200,7 +214,7 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
                 chapterName = CHAPTER_PREFIX + chapterId;
            // }
             content = FileOperation.loadBook(bookId, chapterName);
-            System.out.println("-----chapterId------" + chapterId + "-----chapterName------" + chapterName);
+            System.out.println("ReadingActivity:-----chapterId------" + chapterId + "-----chapterName------" + chapterName);
             if (content.equals("") || content == null) {
                 // 没有此章节
                 pf.chapterName = "";
@@ -222,6 +236,26 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
         // 超出本地存放的章节文件数那么连接网络获取内容
         // 否则读取网络数据
         getBookFromNet (bookId, chapterId);
+    }
+
+    /** 异步加载书籍 */
+    class LoadBookAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // 显示一个遮盖界面
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            // 遮盖界面隐藏
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
     }
 
     /** 获取网络书籍内容 */
@@ -993,7 +1027,7 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
                         }
                     }
                 }
-                System.out.println("resetContent");
+                System.out.println("ReadingActivity:resetContent");
             }
 
             /** 获取用户书签 */
@@ -1005,17 +1039,17 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
                 for (User.BookMark bm : bookMarks) {
                     // 如果是当前书的书签
                     if (bm.bookId.equals(curBookId)) {
-                        System.out.println("curBookId" + curBookId);
+                        System.out.println("ReadingActivity:curBookId" + curBookId);
                         bookItems.add(bookMarkRview.new Item(bm.chapterId, bm.firstLine, bm.process, bm.date));
                     }
                 }
-                System.out.println("getBookMark");
+                System.out.println("ReadingActivity:getBookMark");
                 return bookItems;
             }
 
             /** 重置书签 */
             private void resetBookMark () {
-                List<User.BookMark> bookMarks = User.get().getBookMarkList();
+                List<User.BookMark> bookMarks = User.get().getBookMarkList(curBookId);
                 if (bookMarks == null)
                     bookMarks = new ArrayList<>();
                 int sizebookMarks = bookMarks.size();
@@ -1052,7 +1086,7 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
                         }
                     }
                 }
-                System.out.println("resetBookMark");
+                System.out.println("ReadingActivity:resetBookMark");
             }
 
             /** 初始化书签 */

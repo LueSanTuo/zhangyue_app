@@ -84,6 +84,11 @@ public class PageFlipView extends GLSurfaceView implements GLSurfaceView.Rendere
         requestRender();
     }
 
+    /** 判断笔刷是否存在 */
+    public boolean isPaintExist () {
+        return mPageRender.contentPaint != null;
+    }
+
     private void init(Context context) {
         // 创建处理消息的处理程序
         newHandler();

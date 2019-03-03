@@ -91,9 +91,11 @@ public class PageFactory {
         List<String> strList = new ArrayList<>();
         // 根据回车划分段落
         String[] strArr = chapter.split("\n|\r");
+        System.out.println("PageFactory : divChapter + " + strArr.length);
         for (int i = 0; i < strArr.length; i++) {
             strList.addAll(divParagraph(strArr[i]));
             //strList.add("\n"); // 添加段落结束符
+            System.out.println("PageFactory: divParagraph finish + " + i);
         }
         return strList;
     }
@@ -108,7 +110,7 @@ public class PageFactory {
 
     /** 给一章节的内容来 划分成页 */
     public List<Page> divPage (String chapter) {
-        System.out.println("Start DivPage");
+        System.out.println("PageFactory:Start DivPage");
         if (mPages == null) {
             mPages = new ArrayList<>();
         }
@@ -126,7 +128,7 @@ public class PageFactory {
             pagesRealSize = total / maxLineCount + 1;
         }
         int lineFlag = 0;
-        System.out.println("total" + total);
+        System.out.println("PageFactory: total" + total);
         while (lineFlag < total) {
             Page p;
             int index;
@@ -140,9 +142,9 @@ public class PageFactory {
             }
             lineFlag += maxLineCount;
         }
-        System.out.println("total lines: " + total);
-        System.out.println("pagesRealSize: " + pagesRealSize);
-        System.out.println("End DivPage");
+        System.out.println("PageFactory:total lines: " + total);
+        System.out.println("PageFactory:pagesRealSize: " + pagesRealSize);
+        System.out.println("PageFactory:End DivPage");
         return mPages;
     }
 
@@ -167,7 +169,7 @@ public class PageFactory {
         if (index < pagesRealSize && index >= 0) {
             p = mPages.get(index);
         } else {
-            System.out.println("getPage index out of range");
+            System.out.println("PageFactory:getPage index out of range " + index);
         }
         return p;
     }
@@ -177,7 +179,7 @@ public class PageFactory {
         if (index < pageContent.size() && index >= 0) {
             return pageContent.get(index);
         } else {
-            System.out.println("getLine index out of range");
+            System.out.println("PageFactory:getLine index out of range");
             return "";
         }
     }
@@ -186,11 +188,14 @@ public class PageFactory {
     public List<String> divParagraph (String paragraph) {
         List<String> strList = new ArrayList<>();
         int visibleWidth = canvasWidth - PageRender.SPACING_LR * 2;
+        System.out.println("PageFactory: divParagraph start + " + visibleWidth);
         while (paragraph.length() > 0) {
-            int nSize = mPaint.breakText(paragraph, true, visibleWidth, null);// 切割文本, 返回本行长度
+            int nSize = 1;
+            nSize = mPaint.breakText(paragraph, true, visibleWidth, null);// 切割文本, 返回本行长度
             strList.add(paragraph.substring(0, nSize)); // 行集中添加本行
             paragraph = paragraph.substring(nSize); // 去掉已添加的行
         }
+        // System.out.println("PageFactory: divParagraph finish + " + paragraph);
         return strList;
     }
 

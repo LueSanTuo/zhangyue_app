@@ -58,8 +58,7 @@ public abstract class PageRender implements OnPageFlipListener {
     /** 仅用于绘制所有页面内容的画笔 */
     Paint contentPaint;
 
-    public PageRender(Context context, PageFlip pageFlip,
-                      Handler handler, int pageNo) {
+    public PageRender(Context context, PageFlip pageFlip, Handler handler, int pageNo) {
         mContext = context;
         mPageFlip = pageFlip;
         mPageNo = pageNo;
@@ -68,6 +67,13 @@ public abstract class PageRender implements OnPageFlipListener {
         mPageFlip.setListener(this);
         mHandler = handler;
         contentPaint = new Paint();
+        contentPaint.setFilterBitmap(true);
+        contentPaint.setTextSize(calcFontSize(FONT_SIZE));
+        refreshPaintColor ();
+        contentPaint.setStrokeWidth(1);
+        contentPaint.setAntiAlias(true);
+        PageFactory pf = PageFactory.get();
+        pf.setCanvas(mCanvas.getWidth(), mCanvas.getHeight(), contentPaint);
     }
 
     /** 获得当前笔刷颜色 */
@@ -106,7 +112,7 @@ public abstract class PageRender implements OnPageFlipListener {
         pf.setCanvas(mCanvas.getWidth(), mCanvas.getHeight(), contentPaint);
         pf.divPage();
         MAX_PAGES = pf.getPagesRealSize();
-        System.out.println("Refresh");
+        System.out.println("PageRender:Refresh");
     }
 
     /** 刷新画笔颜色 */
