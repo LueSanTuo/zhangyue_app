@@ -132,7 +132,7 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
         bookName = intent.getStringExtra("bookName");
         chapterReadProcess = intent.getFloatExtra("process", 0f);
         getBookContent(curBookId);
-        initBook (curBookId, curChapterId);
+        //initBook (curBookId, curChapterId);
         mPageFlipView = new PageFlipView(this);
         setContentView(mPageFlipView);
         mGestureDetector = new GestureDetector(this, this);
@@ -143,12 +143,12 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
         screenHeight = metrics.heightPixels;
         screenWidth = metrics.widthPixels;
 
-        //activityPopup = findViewById(R.id.activity_reading);
         initPopupWindow();
-        //initTittle();
         if (chapterReadProcess != 0f) {
-            gotoPageByProcess(curChapterId, chapterReadProcess);
+            //gotoPageByProcess(curChapterId, chapterReadProcess);
         }
+        //
+        showWaitWin ();
     }
 
     @Override
@@ -189,6 +189,9 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
     private void addReadRecord () {
         // 获得当前页
         Page page = PageFactory.get().getPage(mPageFlipView.getPageNo() - 1);
+        if (page == null) {
+            return;
+        }
         // 获得第一行
         String firstLine = page.getLine(0);
         // 获得当前进度
@@ -238,25 +241,7 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
         getBookFromNet (bookId, chapterId);
     }
 
-    /** 异步加载书籍 */
-    class LoadBookAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // 显示一个遮盖界面
-        }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            // 遮盖界面隐藏
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            return null;
-        }
-    }
 
     /** 获取网络书籍内容 */
     private void getBookFromNet (String bookId, final int chapterId) {
@@ -364,6 +349,8 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
     private void addBookMark () {
         // 获得当前页
         Page page = PageFactory.get().getPage(mPageFlipView.getPageNo() - 1);
+        if (page == null)
+            return;
         // 获得第一行
         String firstLine = page.getLine(0);
         // 获得当前进度
@@ -630,6 +617,10 @@ public class ReadingActivity extends AppCompatActivity implements OnGestureListe
     /** 显示等待窗口 */
     private void showWaitWin () {
         Intent intent = new Intent(ReadingActivity.this, WaitForLoadingActivity.class);
+        intent.putExtra("bookId", curBookId);
+        intent.putExtra("chapterId", curChapterId);
+        intent.putExtra("bookName", bookName);
+        intent.putExtra("process", chapterReadProcess);
         startActivity(intent);
         /*
         PopupWindow win = waitWin.getPopupWindow();

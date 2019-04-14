@@ -28,11 +28,11 @@ public class PageFactory {
     /** 页面显示的最大行数 */
     private int maxLineCount;
     /** 该章节名称 */
-    public String chapterName;
+    public String chapterName = "";
     /** 整个章节的内容 */
-    public String pageContentStr;
+    public String pageContentStr = "";
     /** 存放整个章节划分好行的内容 */
-    private List<String> pageContent;
+    private List<String> pageContent = new ArrayList<>();
     /** 页集当前页数 */
     private int pagesRealSize;
 
@@ -82,6 +82,7 @@ public class PageFactory {
     /** 设置画布 */
     public void setCanvas (int width, int height, Paint paint) {
         canvasWidth = width;
+        System.out.println("PageFactory : setCanvas -> canvasWidth " + canvasWidth);
         canvasHeight = height;
         mPaint = paint;
     }
@@ -188,6 +189,8 @@ public class PageFactory {
     public List<String> divParagraph (String paragraph) {
         List<String> strList = new ArrayList<>();
         int visibleWidth = canvasWidth - PageRender.SPACING_LR * 2;
+        if (visibleWidth <= 0)
+            return strList;
         System.out.println("PageFactory: divParagraph start + " + visibleWidth);
         while (paragraph.length() > 0) {
             int nSize = 1;

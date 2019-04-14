@@ -74,6 +74,7 @@ public abstract class PageRender implements OnPageFlipListener {
         contentPaint.setAntiAlias(true);
         PageFactory pf = PageFactory.get();
         pf.setCanvas(mCanvas.getWidth(), mCanvas.getHeight(), contentPaint);
+        System.out.println("PageRender : pf.setCanvas -> mCanvas.getWidth() " + mCanvas.getWidth());
     }
 
     /** 获得当前笔刷颜色 */

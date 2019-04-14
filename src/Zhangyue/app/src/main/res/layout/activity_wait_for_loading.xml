@@ -8,6 +8,7 @@
     tools:context="com.example.asus.zhangyue.WaitForLoadingActivity">
 
     <TextView
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="#ffffff"
