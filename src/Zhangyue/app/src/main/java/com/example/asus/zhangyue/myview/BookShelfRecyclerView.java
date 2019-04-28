@@ -1,12 +1,14 @@
 package com.example.asus.zhangyue.myview;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus.zhangyue.Data.User;
@@ -63,6 +65,14 @@ public class BookShelfRecyclerView {
         itemAdapter.notifyItemChanged(position);
     }
 
+    /** 刷新图片的功能 */
+    public void refreshBookCover (int index, Bitmap picture) {
+        if (picture == null || index >= recyclerView.getAdapter().getItemCount())
+            return;
+        ItemAdapter.ViewHolder viewHolder = (ItemAdapter.ViewHolder)recyclerView.findViewHolderForAdapterPosition(index);
+        viewHolder.bookCover.setImageBitmap(picture);
+    }
+
     /** 目录元素类 */
     public class Item {
 
@@ -72,6 +82,8 @@ public class BookShelfRecyclerView {
         public String author;
         /** 阅读记录 */
         public User.BookMark readRecord;
+        /** 书面 */
+        public Bitmap bookCover;
 
         public Item() {
             bookName = "";
@@ -109,6 +121,8 @@ public class BookShelfRecyclerView {
             private TextView bookName;
             /** 作者名 */
             private TextView author;
+            /** 书面 */
+            private ImageView bookCover;
 
             public ViewHolder(View view) {
                 super(view);
@@ -116,6 +130,7 @@ public class BookShelfRecyclerView {
                 bookName = (TextView)view.findViewById(R.id.bookName);
                 author = (TextView)view.findViewById(R.id.author);
                 whole = view.findViewById(R.id.whole);
+                bookCover = (ImageView)view.findViewById(R.id.bookCover);
             }
         }
 
@@ -140,8 +155,14 @@ public class BookShelfRecyclerView {
             Item item = mItemList.get(position);
             holder.bookName.setText(item.bookName);
             holder.author.setText(item.author);
+            if (item.bookCover != null)
+                holder.bookCover.setImageBitmap(item.bookCover);
+            else
+                holder.bookCover.setImageResource(R.drawable.bookmall_red);
             // 设置点击响应
             holder.whole.setOnClickListener(item.new ItemClickListener());
         }
+
+
     }
 }

@@ -50,6 +50,8 @@ public class User {
     public final static String IP_ADD_DEAL_BOOKMARKS = IP_ADD + "DealBookMarks.jsp";
     /** 处理阅读记录 */
     public final static String IP_ADD_DEAL_READRECORD = IP_ADD + "DealReadRecord.jsp";
+    /** 书籍封面图片地址 */
+    public final static String IP_ADD_BOOK_COVER_PICTURE = IP_ADD + "BookCover/";
 
     /** 单例 */
     public static User instance;

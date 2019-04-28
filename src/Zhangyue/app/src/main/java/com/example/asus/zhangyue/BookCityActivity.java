@@ -35,6 +35,8 @@ import java.util.List;
 /** 主界面 */
 public class BookCityActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static BookCityActivity curActiveActivity;
+
     //初始化fragment
     private BookMallFragment mBookMallFragment;
     private BookShelfFragment mBookShelfFragment;
@@ -59,6 +61,9 @@ public class BookCityActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        curActiveActivity = this;
+
         setContentView(R.layout.activity_book_city);
         mFragmentManager = getSupportFragmentManager();
 
@@ -82,6 +87,18 @@ public class BookCityActivity extends AppCompatActivity implements View.OnClickL
 
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        curActiveActivity = this;
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        curActiveActivity = this;
     }
 
     private void getPermission () {
